@@ -11,10 +11,22 @@
 
 package edu.cmu.sphinx.api;
 
+import javax.sound.sampled.Mixer;
+
 
 public class SpeechSourceProvider {
 
     Microphone getMicrophone() {
         return new Microphone(16000, 16, true, false);
+    }
+    
+    /**
+     * Created a microphone from the provided mixerInfo object with the default configuration.
+     * @param mixerinfo
+     * @return the microphone object obtained from the provided mixer or NULL if configuration is not supported.
+     * @see edu.cmu.sphinx.frontend.util.StreamDataSource
+     */
+    Microphone getMicrophone(Mixer.Info mixerinfo) {
+        return new Microphone(mixerinfo, 16000, 16, true, false);
     }
 }

@@ -39,6 +39,33 @@ public class Microphone {
         }
         inputStream = new AudioInputStream(line);
     }
+    
+    public Microphone(TargetDataLine dLine) {
+        try {
+        	line = dLine;
+            line.open();
+        } catch (LineUnavailableException e) {
+            throw new IllegalStateException(e);
+        }
+        inputStream = new AudioInputStream(line);
+    }
+    
+    public Microphone(
+    		Mixer.Info mixerinfo,
+            float sampleRate,
+            int sampleSize,
+            boolean signed,
+            boolean bigEndian) {
+        AudioFormat format =
+                new AudioFormat(sampleRate, sampleSize, 1, signed, bigEndian);
+        try {
+        	line = AudioSystem.getTargetDataLine(format, mixerinfo);
+            line.open();
+        } catch (LineUnavailableException e) {
+            throw new IllegalStateException(e);
+        }
+        inputStream = new AudioInputStream(line);
+    }
 
     public void startRecording() {
         line.start();

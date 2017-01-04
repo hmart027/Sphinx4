@@ -13,6 +13,8 @@ package edu.cmu.sphinx.api;
 
 import java.io.IOException;
 
+import javax.sound.sampled.Mixer;
+
 import edu.cmu.sphinx.frontend.util.StreamDataSource;
 
 
@@ -33,6 +35,21 @@ public class LiveSpeechRecognizer extends AbstractSpeechRecognizer {
     {
         super(configuration);
         microphone = speechSourceProvider.getMicrophone();
+        context.getInstance(StreamDataSource.class)
+            .setInputStream(microphone.getStream());
+    }
+    
+    /**
+     * Constructs new live recognition object.
+     *
+     * @param configuration common configuration
+     * @param mixerInfo the mixer from which to generate the TargetDataLine microphone
+     * @throws IOException if model IO went wrong
+     */
+    public LiveSpeechRecognizer(Configuration configuration, Mixer.Info mixerInfo) throws IOException
+    {
+        super(configuration);
+        microphone = speechSourceProvider.getMicrophone(mixerInfo);
         context.getInstance(StreamDataSource.class)
             .setInputStream(microphone.getStream());
     }
