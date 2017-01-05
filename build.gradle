@@ -9,12 +9,14 @@ def getRepositoryPassword() {
 
 allprojects() {
     group = 'edu.cmu.sphinx'
-    version = '5prealpha-SNAPSHOT'
+    version = '5prealpha'
 }
 
 subprojects() {
     apply plugin: 'java'
     apply plugin: 'maven'
+    
+    buildDir = '../../build'
     
     uploadArchives {
         repositories {
